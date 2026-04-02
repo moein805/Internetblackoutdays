@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حمایت از روایت حقیقت - روزهای بدون اینترنت</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @font-face {
+            font-family: 'Vazir';
+            src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/font-face.css');
+        }
+        body {
+            font-family: 'Tahoma', 'Arial', sans-serif;
+            background-color: #000;
+            color: #fff;
+            letter-spacing: -0.02em;
+        }
+        .progress-bar-container {
+            background: #111;
+            border: 1px solid #222;
+        }
+        .progress-fill {
+            width: 1%;
+            background: #fff;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+            transition: width 2.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .support-card {
+            border: 1px solid #1a1a1a;
+            transition: all 0.4s ease;
+            background: #050505;
+        }
+        .support-card:hover {
+            border-color: #444;
+            transform: translateY(-2px);
+        }
+        .support-card.active {
+            border-color: #fff;
+            background: #0a0a0a;
+        }
+        .crypto-address {
+            word-break: break-all;
+            font-family: monospace;
+            border: 1px dashed #333;
+        }
+    </style>
+</head>
+<body class="py-24 px-6">
+
+    <div class="max-w-3xl mx-auto">
+        <!-- بخش عنوان -->
+        <div class="mb-20">
+            <h2 class="text-3xl md:text-5xl font-bold mb-6">پروتکل اکسیژن</h2>
+            <p class="text-gray-500 text-lg md:text-xl leading-relaxed">
+                این یک کتاب معمولی نیست؛ این هزینه‌ی بیدار نگه داشتن یک فریاد است. در روزهایی که هر کلمه برای زنده ماندن می‌جنگد، حمایت شما مستقیماً صرف <span class="text-white">شکستن انزوای دیجیتال</span> و رساندن این روایت‌ها به جهان می‌شود.
+            </p>
+        </div>
+
+        <!-- وضعیت نمادین پروژه -->
+        <div class="mb-24">
+            <div class="flex justify-between text-[10px] mb-4 font-mono text-gray-600 uppercase tracking-[0.3em]">
+                <span>وضعیت بازیابی اتصال (Recovery Status)</span>
+                <span id="percent-text">۱٪</span>
+            </div>
+            <div class="progress-bar-container h-1 w-full rounded-full overflow-hidden">
+                <div id="progress-line" class="progress-fill h-full"></div>
+            </div>
+            <p class="mt-6 text-xs text-gray-500 italic leading-loose">
+                * هر همراهی شما، گامی است برای پایان دادن به این خاموشی تحمیلی. ما با هم، روشنایی را بازمی‌گردانیم.
+            </p>
+        </div>
+
+        <!-- گزینه‌های همراهی -->
+        <div class="space-y-6 mb-20">
+            
+            <!-- حامی روایت -->
+            <div onclick="selectOption(this, '10 USDT')" class="support-card p-8 rounded-xl cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-6 active border-white">
+                <div>
+                    <h4 class="text-xl font-bold mb-1">حامی روایت</h4>
+                    <p class="text-sm text-gray-500">کمک به انتشار و ماندگاری مستندات روزهای خاموشی</p>
+                </div>
+                <div class="text-2xl font-mono font-bold">10 USDT</div>
+            </div>
+
+            <!-- صدای محاصره -->
+            <div onclick="selectOption(this, '50 USDT')" class="support-card p-8 rounded-xl cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                    <h4 class="text-xl font-bold mb-1">صدای محاصره</h4>
+                    <p class="text-sm text-gray-500 text-gray-400">تأمین زیرساخت‌های لازم برای عبور از سد سانسور</p>
+                </div>
+                <div class="text-2xl font-mono font-bold">50 USDT</div>
+            </div>
+
+            <!-- نگهبان تاریخ -->
+            <div onclick="selectOption(this, '200 USDT')" class="support-card p-8 rounded-xl cursor-pointer flex flex-col md:flex-row md:items-center justify-between gap-6">
+                <div>
+                    <h4 class="text-xl font-bold mb-1">نگهبان تاریخ</h4>
+                    <p class="text-sm text-gray-500">پشتیبانی استراتژیک از دسترسی آزاد به اطلاعات برای عموم</p>
+                </div>
+                <div class="text-2xl font-mono font-bold">200 USDT</div>
+            </div>
+
+        </div>
+
+        <!-- درگاه واریز -->
+        <div id="payment-box" class="hidden border-t border-gray-900 pt-16 text-center animate-fade-in">
+            <p class="text-sm text-gray-500 mb-6">آدرس کیف‌پول جهت واریز <span id="amount-display" class="text-white font-bold">--</span> (Tether TRC20):</p>
+            
+            <div class="bg-[#080808] text-gray-300 p-5 rounded-lg mb-8 crypto-address text-sm md:text-base select-all">
+                TG8grfKuJCZuA37JVy9gNT1xpqmgynrw2q
+            </div>
+
+            <div class="max-w-md mx-auto space-y-4">
+                <p class="text-[11px] text-gray-600 leading-relaxed">
+                    پس از انجام تراکنش، هش (TXID) را به آدرس زیر ارسال کنید. نسخه کامل کتاب و ابزارهای عبور از محدودیت برای شما ایمیل خواهد شد:
+                </p>
+                <a href="mailto:info@internetblackoutdays.site" class="text-white text-xs border-b border-gray-800 pb-1 hover:border-white transition-colors">info@internetblackoutdays.site</a>
+            </div>
+        </div>
+
+        <!-- فوتر -->
+        <footer class="mt-40 text-center border-t border-gray-900 pt-12">
+            <p class="text-[9px] text-gray-700 uppercase tracking-[0.5em]">Tehran // 2026 // Resistance Through Words</p>
+        </footer>
+    </div>
+
+    <script>
+        function selectOption(el, price) {
+            // حذف وضعیت‌های قبلی
+            document.querySelectorAll('.support-card').forEach(card => {
+                card.classList.remove('active', 'border-white');
+            });
+
+            // اعمال وضعیت جدید
+            el.classList.add('active', 'border-white');
+
+            // نمایش باکس پرداخت
+            const paymentBox = document.getElementById('payment-box');
+            paymentBox.classList.remove('hidden');
+            document.getElementById('amount-display').innerText = price;
+            
+            // اسکرول به پایین
+            setTimeout(() => {
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            }, 100);
+        }
+
+        window.onload = function() {
+            setTimeout(() => {
+                document.getElementById('progress-line').style.width = '18.2%';
+                document.getElementById('percent-text').innerText = '۱۸.۲٪';
+            }, 600);
+        };
+    </script>
+</body>
+</html>
