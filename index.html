@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa" dir="rtl" id="main-html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>روزهای خاموشی اینترنت | معین موسوی</title>
+    <title id="page-title">روزهای خاموشی اینترنت | معین موسوی</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100;400;700&family=Inter:wght@300;400;700&display=swap');
         
         body {
             font-family: 'Vazirmatn', sans-serif;
             background-color: #0f0f0f;
             color: #ffffff;
+            transition: background-color 0.3s ease;
+        }
+
+        .lang-en {
+            font-family: 'Inter', sans-serif;
         }
 
         .glass-effect {
@@ -30,6 +35,28 @@
         .book-shadow {
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
+
+        /* Transition for layout switching */
+        .content-transition {
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* Comparison Slider Styles */
+        .comparison-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 550px;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-container {
+                height: 400px;
+                max-width: 280px;
+            }
+        }
     </style>
 </head>
 <body class="overflow-x-hidden">
@@ -38,39 +65,74 @@
     <nav class="fixed w-full z-50 glass-effect py-4 px-8 flex justify-between items-center">
         <div class="text-xl font-bold tracking-tighter">MOEIN MOSAVI</div>
         <div class="hidden md:flex gap-8">
-            <a href="#about" class="hover:text-gray-400 transition">درباره کتاب</a>
-            <a href="#purchase" class="hover:text-gray-400 transition">خرید</a>
-            <a href="#donate" class="hover:text-gray-400 transition">حمایت مالی</a>
+            <a href="#about" id="nav-about" class="hover:text-gray-400 transition">درباره کتاب</a>
+            <a href="#preview-section" id="nav-preview" class="hover:text-gray-400 transition">نسخه تاریک</a>
+            <a href="#purchase" id="nav-purchase" class="hover:text-gray-400 transition">خرید</a>
+            <a href="#donate" id="nav-donate" class="hover:text-gray-400 transition">حمایت مالی</a>
         </div>
-        <button class="bg-white text-black px-6 py-2 rounded-full font-bold hover:bg-gray-200 transition">سفارش نسخه فیزیکی</button>
+        <div class="flex items-center gap-4">
+            <!-- دکمه تغییر زبان -->
+            <button id="lang-btn" onclick="toggleLanguage()" class="border border-white/20 px-3 py-1 rounded hover:bg-white/10 transition text-sm">EN</button>
+            <button id="nav-order" class="bg-white text-black px-6 py-2 rounded-full font-bold hover:bg-gray-200 transition">سفارش نسخه فیزیکی</button>
+        </div>
     </nav>
 
     <!-- Hero Section -->
     <section class="min-h-screen flex flex-col md:flex-row items-center justify-center px-6 pt-24 pb-12 gap-12 max-w-7xl mx-auto">
-        <div class="flex-1 space-y-6 text-right">
-            <h1 class="text-5xl md:text-7xl font-bold leading-tight gradient-text">
+        <div class="flex-1 space-y-6 text-right content-transition" id="hero-text-container">
+            <h1 id="hero-title" class="text-5xl md:text-7xl font-bold leading-tight gradient-text">
                 روزهای خاموشی اینترنت
             </h1>
-            <p class="text-xl text-gray-400 max-w-xl leading-relaxed">
+            <p id="hero-desc" class="text-xl text-gray-400 max-w-xl leading-relaxed">
                 کاوشی عمیق و تامل‌برانگیز در دنیایی که ارتباطات در آن به بن‌بست رسیده است. هزینه‌ی واقعی قطع کامل ارتباط چیست؟ اثری از معین موسوی.
             </p>
-            <div class="flex flex-wrap gap-4 pt-4">
+            <div class="flex flex-wrap gap-4 pt-4 justify-start md:justify-start" id="hero-btns">
                 <a href="#purchase" class="bg-white text-black px-8 py-4 rounded-lg font-bold flex items-center gap-2 hover:scale-105 transition">
-                    <i class="fas fa-shopping-cart"></i> خرید کتاب
+                    <i class="fas fa-shopping-cart"></i> <span id="btn-buy-text">خرید کتاب</span>
                 </a>
                 <a href="#donate" class="border border-white/20 px-8 py-4 rounded-lg font-bold flex items-center gap-2 hover:bg-white/10 transition">
-                    <i class="fas fa-heart text-red-500"></i> حمایت مالی (Donation)
+                    <i class="fas fa-heart text-red-500"></i> <span id="btn-donate-text">حمایت مالی (Donation)</span>
                 </a>
             </div>
         </div>
         <div class="flex-1 flex justify-center">
-            <!-- جایگزین تصویر کتاب -->
             <div class="relative group">
-                <img src="./asset/jeldfa.png" 
+                <!-- تصویر جلد اصلی -->
+                <img id="book-cover" src="./asset/jeldfa.png" 
                      alt="طرح جلد کتاب" 
                      class="w-72 md:w-96 rounded-lg book-shadow transform group-hover:rotate-2 transition duration-500">
-                <div class="absolute -bottom-4 -right-4 bg-white text-black p-4 rounded-lg font-bold shadow-xl">
-                    نسخه جدید ۲۰۲۴
+            </div>
+        </div>
+    </section>
+
+    <!-- Dark Mode Preview Section -->
+    <section id="preview-section" class="py-24 px-6 border-t border-white/5">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
+            <div class="flex-1 flex justify-center order-2 md:order-1">
+                <div class="comparison-container glass-effect p-2">
+                    <!-- نمایش نسخه دارک مود -->
+                    <img id="dark-mode-img" src="./asset/darkmood.webp" 
+                         alt="نسخه دارک مود کتاب" 
+                         class="w-full h-full object-cover rounded-lg book-shadow">
+                    <div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-md px-4 py-2 rounded-full text-xs border border-white/10">
+                        <span id="dark-preview-label">نسخه چاپ ویژه دارک مود</span>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-1 text-right space-y-6 order-1 md:order-2">
+                <h2 id="preview-title" class="text-4xl font-bold italic">ظاهری متفاوت برای تجربه‌ای متفاوت</h2>
+                <p id="preview-desc" class="text-gray-400 text-lg leading-relaxed">
+                    نسخه «خاموشی» با طراحی مینیمال و تیره، به گونه‌ای طراحی شده تا حس انزوا و تاریکی دیجیتال را حتی در دستان شما منتقل کند. این نسخه محدود با متریال مات و جزئیات براق عرضه می‌شود.
+                </p>
+                <div class="flex gap-4 justify-end">
+                    <div class="flex items-center gap-2 text-sm text-gray-500">
+                        <i class="fas fa-moon"></i>
+                        <span id="label-matte">مات ضد اثر انگشت</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-gray-500">
+                        <i class="fas fa-star"></i>
+                        <span id="label-limited">تعداد محدود</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -79,95 +141,184 @@
     <!-- About Section -->
     <section id="about" class="py-24 px-6 bg-[#161616]">
         <div class="max-w-4xl mx-auto text-center space-y-8">
-            <h2 class="text-3xl font-bold">درباره این اثر</h2>
-            <p class="text-gray-400 text-lg leading-loose">
+            <h2 id="about-title" class="text-3xl font-bold">درباره این اثر</h2>
+            <p id="about-desc" class="text-gray-400 text-lg leading-loose">
                 در این کتاب، معین موسوی با نگاهی جامعه‌شناختی و فنی به بررسی تبعات قطع دسترسی به شبکه جهانی می‌پردازد. این کتاب فقط یک روایت نیست، بلکه هشداری است برای دنیایی که بیش از هر زمان دیگری به رشته‌های نامرئی فیبر نوری وابسته است.
             </p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-12">
-                <div class="p-6 glass-effect rounded-2xl">
-                    <i class="fas fa-microchip text-3xl mb-4 text-gray-500"></i>
-                    <h3 class="font-bold mb-2">تحلیل فنی</h3>
-                    <p class="text-sm text-gray-500">بررسی ساختارهای زیرساختی اینترنت در زمان بحران</p>
-                </div>
-                <div class="p-6 glass-effect rounded-2xl">
-                    <i class="fas fa-users text-3xl mb-4 text-gray-500"></i>
-                    <h3 class="font-bold mb-2">تاثیرات اجتماعی</h3>
-                    <p class="text-sm text-gray-500">چگونه انزوا جوامع مدرن را تغییر می‌دهد</p>
-                </div>
-                <div class="p-6 glass-effect rounded-2xl">
-                    <i class="fas fa-book-open text-3xl mb-4 text-gray-500"></i>
-                    <h3 class="font-bold mb-2">روایت داستانی</h3>
-                    <p class="text-sm text-gray-500">تجربیات انسانی در تاریکی دیجیتال</p>
-                </div>
-            </div>
         </div>
     </section>
 
-    <!-- Purchase & Donation Section -->
+    <!-- Purchase Section -->
     <section id="purchase" class="py-24 px-6 max-w-7xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-            
-            <!-- Purchase Card -->
-            <div class="p-10 rounded-3xl bg-white text-black space-y-6">
-                <h2 class="text-3xl font-bold text-right">تهیه نسخه کتاب</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12" id="purchase-grid">
+            <div class="p-10 rounded-3xl bg-white text-black space-y-6 text-right" id="buy-card">
+                <h2 id="buy-title" class="text-3xl font-bold">تهیه نسخه کتاب</h2>
                 <ul class="space-y-4">
                     <li class="flex justify-between border-b border-gray-200 pb-2">
-                        <span class="font-bold">۱۵۰,۰۰۰ تومان</span>
-                        <span>نسخه دیجیتال (PDF)</span>
+                        <span id="price-digital" class="font-bold">۱۵۰,۰۰۰ تومان</span>
+                        <span id="label-digital">نسخه دیجیتال (PDF)</span>
                     </li>
                     <li class="flex justify-between border-b border-gray-200 pb-2">
-                        <span class="font-bold">۳۸۰,۰۰۰ تومان</span>
-                        <span>نسخه چاپی (جلد سخت)</span>
+                        <span id="price-physical" class="font-bold">۳۸۰,۰۰۰ تومان</span>
+                        <span id="label-physical">نسخه چاپی (جلد سخت)</span>
                     </li>
                 </ul>
-                <button class="w-full bg-black text-white py-4 rounded-xl font-bold hover:bg-gray-800 transition">
+                <button id="btn-checkout" class="w-full bg-black text-white py-4 rounded-xl font-bold hover:bg-gray-800 transition">
                     پرداخت و دریافت آنلاین
                 </button>
             </div>
 
-            <!-- Donation Card -->
-            <div id="donate" class="p-10 rounded-3xl glass-effect space-y-6">
-                <h2 class="text-3xl font-bold text-right">حمایت از نویسنده</h2>
-                <p class="text-gray-400 text-right">
+            <div id="donate" class="p-10 rounded-3xl glass-effect space-y-6 text-right" id="donate-card">
+                <h2 id="don-title" class="text-3xl font-bold">حمایت از نویسنده</h2>
+                <p id="don-desc" class="text-gray-400">
                     اگر از محتوای آزاد و تحقیقات این پروژه لذت بردید، می‌توانید با حمایت مالی خود به ادامه این مسیر کمک کنید.
                 </p>
                 <div class="flex gap-4">
-                    <input type="number" placeholder="مبلغ به تومان" class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-white transition">
-                    <button class="bg-red-600 px-6 py-3 rounded-xl font-bold hover:bg-red-700 transition">
-                        حمایت
-                    </button>
-                </div>
-                <div class="flex justify-center gap-6 text-2xl text-gray-500">
-                    <i class="fab fa-bitcoin hover:text-orange-500 cursor-pointer"></i>
-                    <i class="fab fa-ethereum hover:text-blue-400 cursor-pointer"></i>
-                    <i class="fas fa-credit-card hover:text-green-500 cursor-pointer"></i>
+                    <input type="number" id="don-input" placeholder="مبلغ به تومان" class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-white transition">
+                    <button id="don-btn-action" class="bg-red-600 px-6 py-3 rounded-xl font-bold hover:bg-red-700 transition">حمایت</button>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="py-12 border-t border-white/10 text-center text-gray-500">
-        <div class="mb-6">
-            <a href="#" class="mx-3 hover:text-white"><i class="fab fa-instagram"></i></a>
-            <a href="#" class="mx-3 hover:text-white"><i class="fab fa-twitter"></i></a>
-            <a href="#" class="mx-3 hover:text-white"><i class="fab fa-linkedin"></i></a>
-        </div>
-        <p>&copy; ۲۰۲۴ معین موسوی. تمامی حقوق محفوظ است.</p>
+        <p id="footer-text">&copy; ۲۰۲۴ معین موسوی. تمامی حقوق محفوظ است.</p>
     </footer>
 
     <script>
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+        const content = {
+            fa: {
+                title: "روزهای خاموشی اینترنت | معین موسوی",
+                navAbout: "درباره کتاب",
+                navPreview: "نسخه تاریک",
+                navPurchase: "خرید",
+                navDonate: "حمایت مالی",
+                navOrder: "سفارش نسخه فیزیکی",
+                heroTitle: "روزهای خاموشی اینترنت",
+                heroDesc: "کاوشی عمیق و تامل‌برانگیز در دنیایی که ارتباطات در آن به بن‌بست رسیده است. هزینه‌ی واقعی قطع کامل ارتباط چیست؟ اثری از معین موسوی.",
+                btnBuy: "خرید کتاب",
+                btnDon: "حمایت مالی (Donation)",
+                previewTitle: "ظاهری متفاوت برای تجربه‌ای متفاوت",
+                previewDesc: "نسخه «خاموشی» با طراحی مینیمال و تیره، به گونه‌ای طراحی شده تا حس انزوا و تاریکی دیجیتال را حتی در دستان شما منتقل کند. این نسخه محدود با متریال مات و جزئیات براق عرضه می‌شود.",
+                previewLabel: "نسخه ویژه شب",
+                labelMatte: "مات ضد اثر انگشت",
+                labelLimited: "تعداد محدود",
+                aboutTitle: "درباره این اثر",
+                aboutDesc: "در این کتاب، معین موسوی با نگاهی جامعه‌شناختی و فنی به بررسی تبعات قطع دسترسی به شبکه جهانی می‌پردازد. این کتاب فقط یک روایت نیست، بلکه هشداری است برای دنیایی که بیش از هر زمان دیگری به رشته‌های نامرئی فیبر نوری وابسته است.",
+                buyTitle: "تهیه نسخه کتاب",
+                priceDig: "۱۵۰,۰۰۰ تومان",
+                labelDig: "نسخه دیجیتال (PDF)",
+                pricePhy: "۳۸۰,۰۰۰ تومان",
+                labelPhy: "نسخه چاپی (جلد سخت)",
+                btnCheckout: "پرداخت و دریافت آنلاین",
+                donTitle: "حمایت از نویسنده",
+                donDesc: "اگر از محتوای آزاد و تحقیقات این پروژه لذت بردید، می‌توانید با حمایت مالی خود به ادامه این مسیر کمک کنید.",
+                donPlaceholder: "مبلغ به تومان",
+                donBtn: "حمایت",
+                footer: "© ۲۰۲۴ معین موسوی. تمامی حقوق محفوظ است.",
+                dir: "rtl",
+                img: "./asset/jeldfa.png",
+                align: "right",
+                btnLang: "EN"
+            },
+            en: {
+                title: "Internet Blackout Days | Moein Mosavi",
+                navAbout: "About",
+                navPreview: "Dark Edition",
+                navPurchase: "Buy",
+                navDonate: "Donate",
+                navOrder: "Order Physical Copy",
+                heroTitle: "Internet Blackout Days",
+                heroDesc: "A deep and thought-provoking exploration into a world where communication has hit a dead end. What is the real cost of total disconnection? By Moein Mosavi.",
+                btnBuy: "Purchase Book",
+                btnDon: "Support/Donation",
+                previewTitle: "A Different Look for a Different Experience",
+                previewDesc: "The 'Blackout' edition, with its minimal and dark design, is crafted to convey the sense of isolation and digital darkness even in your hands. This limited edition features matte materials and glossy details.",
+                previewLabel: "Special Edition Dark Mode",
+                labelMatte: "Fingerprint-proof Matte",
+                labelLimited: "Limited Edition",
+                aboutTitle: "About the Work",
+                aboutDesc: "In this book, Moein Mosavi examines the consequences of shutting down the global network from sociological and technical perspectives. It's a warning for a world more dependent than ever on fiber optics.",
+                buyTitle: "Get Your Copy",
+                priceDig: "$4.99",
+                labelDig: "Digital Edition (PDF)",
+                pricePhy: "$19.99",
+                labelPhy: "Hardcover Edition",
+                btnCheckout: "Checkout & Download",
+                donTitle: "Support the Author",
+                donDesc: "If you enjoyed the open research of this project, you can support our journey through donations.",
+                donPlaceholder: "Amount in USD",
+                donBtn: "Donate",
+                footer: "© 2024 Moein Mosavi. All rights reserved.",
+                dir: "ltr",
+                img: "./asset/jelden.png",
+                align: "left",
+                btnLang: "FA"
+            }
+        };
+
+        let currentLang = 'fa';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'fa' ? 'en' : 'fa';
+            const data = content[currentLang];
+            
+            // Update Page Settings
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = data.dir;
+            document.title = data.title;
+            if(currentLang === 'en') document.body.classList.add('lang-en');
+            else document.body.classList.remove('lang-en');
+
+            // Update Nav
+            document.getElementById('nav-about').innerText = data.navAbout;
+            document.getElementById('nav-preview').innerText = data.navPreview;
+            document.getElementById('nav-purchase').innerText = data.navPurchase;
+            document.getElementById('nav-donate').innerText = data.navDonate;
+            document.getElementById('nav-order').innerText = data.navOrder;
+            document.getElementById('lang-btn').innerText = data.btnLang;
+
+            // Update Hero
+            document.getElementById('hero-title').innerText = data.heroTitle;
+            document.getElementById('hero-desc').innerText = data.heroDesc;
+            document.getElementById('btn-buy-text').innerText = data.btnBuy;
+            document.getElementById('btn-donate-text').innerText = data.btnDon;
+            document.getElementById('book-cover').src = data.img;
+            
+            // Alignment adjustments
+            document.getElementById('hero-text-container').style.textAlign = data.align;
+            document.getElementById('buy-card').style.textAlign = data.align;
+            document.getElementById('donate').style.textAlign = data.align;
+            document.getElementById('preview-section').querySelector('.flex-1.text-right').style.textAlign = data.align;
+
+            // Update Preview Section
+            document.getElementById('preview-title').innerText = data.previewTitle;
+            document.getElementById('preview-desc').innerText = data.previewDesc;
+            document.getElementById('dark-preview-label').innerText = data.previewLabel;
+            document.getElementById('label-matte').innerText = data.labelMatte;
+            document.getElementById('label-limited').innerText = data.labelLimited;
+
+            // Update About
+            document.getElementById('about-title').innerText = data.aboutTitle;
+            document.getElementById('about-desc').innerText = data.aboutDesc;
+
+            // Update Purchase
+            document.getElementById('buy-title').innerText = data.buyTitle;
+            document.getElementById('price-digital').innerText = data.priceDig;
+            document.getElementById('label-digital').innerText = data.labelDig;
+            document.getElementById('price-physical').innerText = data.pricePhy;
+            document.getElementById('label-physical').innerText = data.labelPhy;
+            document.getElementById('btn-checkout').innerText = data.btnCheckout;
+
+            // Update Donation
+            document.getElementById('don-title').innerText = data.donTitle;
+            document.getElementById('don-desc').innerText = data.donDesc;
+            document.getElementById('don-input').placeholder = data.donPlaceholder;
+            document.getElementById('don-btn-action').innerText = data.donBtn;
+
+            // Footer
+            document.getElementById('footer-text').innerText = data.footer;
+        }
     </script>
 </body>
-</html>```
-
+</html>
